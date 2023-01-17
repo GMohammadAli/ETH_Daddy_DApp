@@ -7,38 +7,48 @@ const tokens = (n) => {
 
 describe("ETHDaddy", () => {
   let ethDaddy
-  // let deployer, owner1
+  let deployer, owner1
 
   const NAME = "ETH Daddy";
   const SYMBOL = "ETHD";
 
 
   beforeEach(async () => {
-    // [deployer, owner1]
-    const signers = await ethers.getSigners();
-    console.log(signers + signers.length)
-    console.log(signers[19].address)
+    [deployer, owner1] = await ethers.getSigners();
 
     const ETHDaddy = await ethers.getContractFactory("ETHDaddy");
     ethDaddy = await ETHDaddy.deploy("ETHDaddy", "ETHD");
+  
+    //list a domain
+    const transaction = await ethDaddy.connect(deployer).list('jack.eth', tokens(10))
+    await transaction.wait()
   })
 
   describe("Deployment", () => {
     
     it("has a name", async () => {
       const result = await ethDaddy.name();
-      expect(result).to.equal("ETH Daddy");
+      expect(result).to.equal(NAME);
     });
 
     it("has a symbol", async () => {
       const result = await ethDaddy.symbol();
-      expect(result).to.equal("ETHD");
+      expect(result).to.equal(SYMBOL);
     });
 
     it('Sets the owner', async () => {
       const result = await ethDaddy.owner()
-      expect(result).to.equal(deploy.address)
+      expect(result).to.equal(deployer.address)
     })
   });
+
+  describe('Domain', () => {
+    it('Returns domain sttributes',async() => {
+      let domain = await ethDaddy.domains(1);
+      expect(domain.name).to.be.equal('jack.eth')
+      expect(domain.cost).to.be.equal(tokens(10))
+      expect(domain.isOwned).to.be.equal(false)
+    })
+  })
 
 })
