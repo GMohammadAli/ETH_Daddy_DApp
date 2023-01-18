@@ -17,7 +17,7 @@ describe("ETHDaddy", () => {
     [deployer, owner1] = await ethers.getSigners();
 
     const ETHDaddy = await ethers.getContractFactory("ETHDaddy");
-    ethDaddy = await ETHDaddy.deploy("ETHDaddy", "ETHD");
+    ethDaddy = await ETHDaddy.deploy("ETH Daddy", "ETHD");
   
     //list a domain
     const transaction = await ethDaddy.connect(deployer).list('jack.eth', tokens(10))
@@ -40,11 +40,16 @@ describe("ETHDaddy", () => {
       const result = await ethDaddy.owner()
       expect(result).to.equal(deployer.address)
     })
+
+    it("Returns the maxSupply", async () => {
+      const result = await ethDaddy.maxSupply();
+      expect(result).to.equal(1);
+    });
   });
 
   describe('Domain', () => {
-    it('Returns domain sttributes',async() => {
-      let domain = await ethDaddy.domains(1);
+    it('Returns domain attributes',async() => {
+      let domain = await ethDaddy.getDomain(1);
       expect(domain.name).to.be.equal('jack.eth')
       expect(domain.cost).to.be.equal(tokens(10))
       expect(domain.isOwned).to.be.equal(false)
