@@ -5,7 +5,7 @@ const Domain = ({ domain, ethDaddy, provider, id }) => {
 
   return (
     <div className='card'>
-
+      Doamin List
     </div>
   );
 }

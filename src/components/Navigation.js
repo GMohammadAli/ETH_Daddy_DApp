@@ -5,7 +5,7 @@ const Navigation = ({ account, setAccount }) => {
 
   return (
     <nav>
-
+      The Navbar
     </nav>
   );
 }
