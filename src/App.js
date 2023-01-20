@@ -27,15 +27,13 @@ function App() {
 
   return (
     <div>
-
-      <div className='cards__section'>
+      <div className="cards__section">
         <Navigation />
         <Search />
         <Domain />
-        <h2 className='cards__title'>Welcome to ETH Daddy!</h2>
+        <h2 className="cards__title">Welcome to ETH Daddy!</h2>
         <p>{account}</p>
       </div>
-
     </div>
   );
 }
